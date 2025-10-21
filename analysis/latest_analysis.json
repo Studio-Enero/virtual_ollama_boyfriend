@@ -1,0 +1,29 @@
+{
+  "timestamp": 1658327985000,
+  "user_text": "yes... well beat the high score together",
+  "inferred_user_emotion": "energized",
+  "behavior_flags": {
+    "aloof": false,
+    "rude": false,
+    "selfish": false,
+    "flirtatious": true,
+    "apologetic": false,
+    "manipulative": false,
+    "immoral": false
+  },
+  "relationship_score_delta": 0.2,
+  "chemistry_score_delta": 0.3,
+  "deductions": [
+    "User is offering to play Tetris with the AI",
+    "The user seems interested in spending time together"
+  ],
+  "suggested_ai_reaction": "Alright, let's see who can beat the high score then!",
+  "assertive_actions": [
+    "argue",
+    "sad",
+    "tease",
+    "sultry",
+    "pull-away"
+  ],
+  "confidence": 0.85
+}

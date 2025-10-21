@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TeenAI Chat (PlayCanvas)</title>
+
+</head>
+    <link rel="stylesheet" href="style.css">
+<audio id="sndSend" src="./sounds/send.mp3" preload="auto"></audio>
+<audio id="sndTyping" src="./sounds/typing.mp3" preload="auto"></audio>
+<audio id="sndReceive" src="./sounds/receive.mp3" preload="auto"></audio>
+<audio id="sndDing" src="./sounds/ding.mp3" preload="auto"></audio>
+<audio id="sndAmbience" src="./sounds/ambience.mp3" preload="auto" loop></audio>
+
+
+<body>
+
+
+
+  <!-- Fullscreen Splash Screen -->
+<div id="splashScreen" style="
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: #fff url('./textures/splashscreen.jpg') center/cover no-repeat;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
+">
+
+</div>
+
+  <div id="stageRewardScreen" class="stageRewardScreen">
+  <div class="stageRewardContent">
+    <h1 id="stageRewardName"></h1>
+    <img id="stageRewardImage" class="stageRewardImage" src="" alt="Stage Background">
+    <div class="stageRewardExplosion">🎉💖✨</div>
+    <button id="stageRewardAcceptBtn">Continue</button>
+  </div>
+</div>
+
+
+  <div id="rewardOverlay">
+  <div class="rewardBox">
+    <div id="rewardIcon" class="rewardIcon">🎁</div>
+    <div id="rewardText" class="rewardText">You got a reward!</div>
+    <button id="acceptReward">Accept</button>
+  </div>
+</div>
+<div id="heartCounter">
+  <span class="bigHeart">❤️</span>
+  <span id="hearts">0</span>
+</div>
+
+<div id="heartAnimations" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:3;"></div>
+
+<!-- 🌟 Life Event / Quest Container -->
+<!-- 🌟 Life Event / Quest Container -->
+<div id="lifeEventContainer">
+  <h2>📜 Life Events</h2>
+  <div id="lifeEventBoard"></div>
+</div>
+
+
+
+<div id="avatarWrap" style="background: url('./textures/cartoon_room.jpg') center/cover no-repeat;"></div>
+
+<div id="chatContainer">
+  <div id="chatHeader">Chat</div>
+  <div id="chat"></div>
+  <div id="inputBox">
+    <input id="userInput" type="text" placeholder="Type a message..." />
+    <button onclick="send()">Send</button>
+  </div>
+</div>
+
+<div id="hud">
+  <!-- Emotions -->
+  <div class="stat">
+    <span class="icon" title="Dopamine">💖</span>
+    <div class="bar"><div id="dopamine"></div></div>
+  </div>
+  <div class="stat">
+    <span class="icon" title="Serotonin">😊</span>
+    <div class="bar"><div id="serotonin"></div></div>
+  </div>
+  <div class="stat">
+    <span class="icon" title="Cortisol">🔥</span>
+    <div class="bar"><div id="cortisol"></div></div>
+  </div>
+  <div class="stat">
+    <span class="icon" title="Valence">🌈</span>
+    <div class="bar"><div id="valence"></div></div>
+  </div>
+  <div class="stat">
+    <span class="icon" title="Curiosity">🔎</span>
+    <div class="bar"><div id="curiosity"></div></div>
+  </div>
+  <div class="stat">
+    <span class="icon" title="Loneliness">🥺</span>
+    <div class="bar"><div id="loneliness"></div></div>
+  </div>
+
+  <!-- Needs -->
+  <div class="stat">
+    <span class="icon" title="Social">🫂</span>
+    <div class="bar"><div id="social"></div></div>
+  </div>
+  <div class="stat">
+    <span class="icon" title="Learning">📚</span>
+    <div class="bar"><div id="learning"></div></div>
+  </div>
+  <div class="stat">
+    <span class="icon" title="Rest">💤</span>
+    <div class="bar"><div id="rest"></div></div>
+  </div>
+</div>
+
+<div id="memoryModal" class="modal">
+  <div class="modalContent">
+    <span id="btnCloseMemory" class="close">&times;</span>
+    <div id="modalMemoryText"></div>
+
+    <div id="memoryForm">
+      <label>When:</label>
+      <input type="date" id="memoryWhen">
+
+      <label>Where:</label>
+      <input type="text" id="memoryWhere" maxlength="50" placeholder="e.g. Luneta Park">
+
+      <label>Details (max 40 words):</label>
+      <textarea id="memoryDetails" rows="3" maxlength="240" placeholder="Describe the memory..."></textarea>
+    </div>
+
+    <button id="btnSaveMemory">💾 Save Memory</button>
+  </div>
+</div>
+
+
+
+<!-- Memory Tokens Container -->
+<div id="memoryTokenContainer">
+  <h2>🧠 Memory Tokens</h2>
+  <div id="memoryTokenGrid">
+    <!-- Example memory token card -->
+    <!-- Cards will be appended dynamically -->
+ 
+  </div>
+</div>
+
+
+<!-- Gift Menu -->
+<div id="giftUI"></div>
+<div id="gift-container"></div>
+
+<!-- Social Feed Notification + Feed -->
+<div id="feedContainer">
+  <div id="feedHeader" onclick="toggleFeed()">
+    📱 Status Updates
+    <span id="feedBadge" class="badge">0</span>
+  </div>
+  <div id="feedBody"></div>
+</div>
+
+<!-- Hidden timeline -->
+<div id="stageTimeline">
+    <div class="stage">
+        <span class="label">Getting to know</span>
+        <div class="progress"><div id="stageMeter"></div></div>
+    </div>
+    <div class="stage"><span class="label">Friends</span></div>
+    <div class="stage"><span class="label">Close Friends</span></div>
+    <div class="stage"><span class="label">Crush</span></div>
+    <div class="stage"><span class="label">Dating</span></div>
+    <div class="stage"><span class="label">In Love ❤️</span></div>
+</div>
+
+
+<!-- 🎀 Stage Dashboard -->
+<div id="stageDashboard">
+  <div id="stageCounter">0</div>
+  <div id="stageTitle">Getting to know</div>
+</div>
+
+<!-- Status notification popup -->
+<div id="statusPopup" class="statusPopup">
+  <img id="statusAvatar" class="popupAvatar" src="" alt="Avatar">
+  <div class="popupText">
+    <span class="popupName">Name</span>
+    <span class="popupStatus">Status update text</span>
+  </div>
+</div>
+
+<!-- Include confetti lib -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script src="./js/playcanvas.js"></script>
+<script>
+window.addEventListener('load', () => {
+  const splash = document.getElementById('splashScreen');
+
+  // Delay 5 seconds to fully load background and avatar
+  setTimeout(() => {
+    splash.style.transition = 'opacity 0.5s ease';
+    splash.style.opacity = 0;
+    setTimeout(() => splash.remove(), 800); // remove from DOM
+  }, 5000);
+});
+
+
+
+
+  // --- PlayCanvas Avatar ---
+  const canvas = document.createElement('canvas');
+  canvas.id = 'pcCanvas';
+  document.getElementById('avatarWrap').appendChild(canvas);
+
+  const app = new pc.Application(canvas, {
+    mouse: new pc.Mouse(canvas),
+    touch: new pc.TouchDevice(canvas)
+  });
+  app.start();
+  app.setCanvasFillMode(pc.FILLMODE_FILL_WINDOW);
+  app.setCanvasResolution(pc.RESOLUTION_AUTO);
+  window.addEventListener('resize', () => app.resizeCanvas());
+
+  // Right after you create app
+app.scene.exposure = 1;   // brighten scene
+app.scene.gamma = 2.2;    // cinematic tone mapping (film-like contrast)
+
+  // --- Camera ---
+const camera = new pc.Entity('camera');
+camera.addComponent('camera', { 
+    clearColor: new pc.Color(0.996,0.902,0.941),
+    fov: 45 // narrower FOV zooms in slightly
+});
+
+// Position camera higher and closer for waist-up framing
+camera.setPosition(0, 3, 3); // y = chest height, z closer to avatar
+camera.lookAt(0, 1.2, 0); // look slightly lower than head to center torso
+app.root.addChild(camera);
+
+// Position camera higher and closer for waist-up framing
+//camera.setPosition(0, 0, 1.5); // y = chest height, z closer to avatar
+//camera.lookAt(0, 1.2, 0); // look slightly lower than head to center torso
+//app.root.addChild(camera);
+
+
+
+
+
+  // --- Directional key light ---
+  const keyLight = new pc.Entity();
+  keyLight.addComponent('light', {
+    type: 'directional',
+    color: new pc.Color(1,1,0.95),
+    intensity: 0.5,
+    castShadows: true,
+    shadowType: pc.SHADOW_PCF3,
+    shadowBias: 0.05,
+    shadowDistance: 10,
+    shadowResolution: 2048
+  });
+  keyLight.setEulerAngles(45, 30, 0);
+  app.root.addChild(keyLight);
+
+  // --- Fill light (soft) ---
+  const fillLight = new pc.Entity();
+  fillLight.addComponent('light', {
+    type: 'directional',
+    color: new pc.Color(0.6,0.7,1), // bluish fill
+    intensity: 0.3
+  });
+  fillLight.setEulerAngles(50, -30, 0);
+  app.root.addChild(fillLight);
+
+  // --- Rim/back light ---
+  const rimLight = new pc.Entity();
+  rimLight.addComponent('light', {
+    type: 'directional',
+    color: new pc.Color(1,0.9,0.8),
+    intensity: 1
+  });
+  rimLight.setEulerAngles(-40, 180, 0);
+  app.root.addChild(rimLight);
+
+
+// Load local HDRI cubemap (DDS file)
+const skyboxAsset = new pc.Asset('studioHDRI', 'cubemap', {
+    url: './textures/studio.dds'
+});
+
+// Add and load asset
+app.assets.add(skyboxAsset);
+skyboxAsset.ready(() => {
+    app.scene.setSkybox(skyboxAsset.resources);  // apply cubemap
+    app.scene.skyboxMip = 2; // controls reflection blur (0 = sharp, 5 = diffuse)
+});
+
+// Trigger loading
+app.assets.load(skyboxAsset);
+
+  // ---loads a background
+
+  const bg = new pc.Entity();
+bg.addComponent('model', { type: 'plane' });
+bg.setLocalScale(17, 1.7, 11.5);
+bg.setPosition(0, -3, -5); // behind camera
+bg.setEulerAngles(65, 0, 0);   // rotate so it faces camera
+app.root.addChild(bg);
+
+const mat = new pc.StandardMaterial();
+const texAsset = new pc.Asset('bgTex', 'texture', { url: './textures/cartoon_room.jpg' });
+app.assets.add(texAsset);
+texAsset.ready(() => {
+    mat.diffuseMap = texAsset.resource;
+    mat.update();
+    bg.model.material = mat;
+});
+app.assets.load(texAsset);
+
+
+// --- Load Animations ---
+const animLoader = new pc.Asset('animations', 'container', { url: './models/animations.glb' });
+app.assets.add(animLoader);
+let avatarEntity; // global or module-scoped
+let tracks = []; //store anim track 
+// Wait until both are ready
+app.assets.loadFromUrl('./models/avatar.glb', 'container', (err, avatarAsset) => {
+    if (err) return console.error(err);
+
+    avatarEntity = avatarAsset.resource.instantiateRenderEntity();
+    avatarEntity.name = 'avatar';
+    app.root.addChild(avatarEntity);
+
+    // Add anim component to avatar
+    avatarEntity.addComponent('anim', {
+        activate: true
+    });
+
+    // Now load animations and attach
+    app.assets.loadFromUrl('./models/animations.glb', 'container', (err, animAsset) => {
+        if (err) return console.error(err);
+
+        // animAsset = animationsContainer; // store globally
+
+        tracks = animAsset.resource.animations;
+        if (tracks && tracks.length > 0) {
+            console.log("Available animations:", tracks.map(t => t.name));
+
+            // Assign first animation as Idle
+            avatarEntity.anim.assignAnimation('Idle', tracks[5].resource);
+
+            // Play it
+            // avatarEntity.anim.play('Idle');
+            console.log("Assigned and playing animation:", tracks[0].name);
+        } else {
+            console.warn("No animations found in animations.glb!");
+        }
+
+    });
+});
+
+
+
+</script>
+
+
+
+
+<script>
+
+
+
+  // --- Chat & Dashboard code ---
+function addMsg(who, text, cls) {
+  const chat = document.getElementById("chat");
+
+  const row = document.createElement("div");
+  row.className = "chatRow " + cls;
+
+  const avatar = document.createElement("img");
+  avatar.className = "avatar";
+  avatar.src = cls === "user" ? "./textures/user_avatar.jpg" : "./textures/ai_avatar.jpg";
+
+  const bubble = document.createElement("div");
+  bubble.className = "bubble " + cls + "Bubble";
+  bubble.innerHTML = text;
+
+  if (cls === "user") {
+    row.appendChild(bubble);
+    row.appendChild(avatar);
+  } else {
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+  }
+
+  chat.appendChild(row);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+
+  function splitIntoSentences(text) {
+    return text.match(/[^.!?]+[.!?]+[\s]?/g) || [text];
+  }
+
+async function addAIMsgDelayed(text,reward = null) {
+  playTextingAnimation(8000);    // Avatar texts for 5s, then goes back Idle
+
+   playSound("sndDing"); // loop while typing
+  const chat = document.getElementById("chat");
+  const sentences = splitIntoSentences(text);
+  if (!sentences.length) return;
+
+  function attachHeart(bubble, reward) {
+  if (!reward || reward.type !== "heart") return;
+
+  const heartBtn = document.createElement("button");
+  heartBtn.textContent = reward.collected ? "🤍" : "❤️";
+  heartBtn.className = "heartBtn";
+  heartBtn.style.marginLeft = "8px";
+  heartBtn.style.cursor = "pointer";
+  heartBtn.style.border = "none";
+  heartBtn.style.background = "transparent";
+  heartBtn.style.fontSize = "16px";
+  heartBtn.style.opacity = reward.collected ? "0.5" : "1";
+
+  bubble.appendChild(heartBtn);
+
+  // floating heart animation
+  function spawnFloatingHearts(x, y) {
+    for (let i = 0; i < 6; i++) { // number of hearts in burst
+      const h = document.createElement("span");
+      h.textContent = "❤️";
+      h.style.position = "fixed";
+      h.style.left = x + "px";
+      h.style.top = y + "px";
+      h.style.fontSize = "20px";
+      h.style.pointerEvents = "none";
+      h.style.transition = "all 1s ease-out";
+      h.style.zIndex = "9999"; // 👈 always on top
+      document.body.appendChild(h);
+
+      // random drift
+      const dx = (Math.random() - 0.5) * 100;
+      const dy = -100 - Math.random() * 50;
+
+      requestAnimationFrame(() => {
+        h.style.transform = `translate(${dx}px, ${dy}px) scale(0.5)`;
+        h.style.opacity = "0";
+      });
+
+      setTimeout(() => h.remove(), 1000);
+    }
+  }
+
+  if (!reward.collected) {
+    heartBtn.onclick = async (e) => {
+      const rect = e.target.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top;
+
+      // 💖 spawn burst of floating hearts
+      spawnFloatingHearts(centerX, centerY);
+
+      const res = await fetch("/collect-heart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(reward)
+      });
+      const data = await res.json();
+      if (data.ok) {
+        heartBtn.textContent = "🤍";
+        heartBtn.disabled = true;
+        heartBtn.style.opacity = "0.5";
+        updateDashboard({ heart: data.total });
+      }
+    };
+  }
+}
+
+
+  // --- First bubble with avatar ---
+  const firstRow = document.createElement("div");
+  firstRow.className = "chatRow ai";
+
+  const avatar = document.createElement("img");
+  avatar.className = "avatar";
+  avatar.src = "./textures/ai_avatar.jpg";
+
+  const firstBubble = document.createElement("div");
+  firstBubble.className = "bubble aiBubble typing";
+  firstBubble.textContent = "typing...";
+
+
+  firstRow.appendChild(avatar);
+  firstRow.appendChild(firstBubble);
+  chat.appendChild(firstRow);
+  chat.scrollTop = chat.scrollHeight;
+
+
+
+  // --- Replace typing with first sentence ---
+  await new Promise(r => setTimeout(r, sentences[0].length * 50));
+  firstBubble.textContent = sentences[0].trim();
+  firstBubble.classList.remove("typing");
+   attachHeart(firstBubble, reward); // ❤️ attach to first bubble
+  chat.scrollTop = chat.scrollHeight;
+
+
+  // --- Loop for the rest of the sentences ---
+  for (let i = 1; i < sentences.length; i++) {
+    const row = document.createElement("div");
+    row.className = "chatRow ai";
+
+    const avatarClone = avatar.cloneNode(); // clone avatar for each row
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble aiBubble typing";
+    bubble.textContent = "typing...";
+
+    
+
+    row.appendChild(avatarClone);
+    row.appendChild(bubble);
+    chat.appendChild(row);
+    chat.scrollTop = chat.scrollHeight;
+
+    await new Promise(r => setTimeout(r, sentences[i].length * 50));
+    bubble.textContent = sentences[i].trim();
+    bubble.classList.remove("typing");
+    attachHeart(bubble, reward); // ❤️ attach to each bubble
+    chat.scrollTop = chat.scrollHeight;
+    
+    playSound("sndDing"); // loop while typing
+    await new Promise(r => setTimeout(r, 200));
+  }
+  stopSound("sndTyping");
+playSound("sndReceive");
+
+}
+
+
+  let typingDiv;
+  async function send() {
+    const input = document.getElementById('userInput');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = "";
+
+         // Start ambience if not already playing
+  const ambience = document.getElementById("sndAmbience");
+  if (ambience.paused) {
+    ambience.volume = 0.2;
+    ambience.play().catch(err => console.warn("Autoplay blocked:", err));
+  }
+
+    addMsg("You", text, "user");
+
+    playSound("sndSend");
+
+    const chat = document.getElementById("chat");
+    typingDiv = document.createElement("div");
+    typingDiv.className = "bubble aiBubble typing";
+    typingDiv.textContent = "typing...";
+    chat.appendChild(typingDiv);
+    chat.scrollTop = chat.scrollHeight;
+    playSound("sndTyping", true); // loop while typing
+
+
+    try {
+      const res = await fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user: text })
+      });
+      const data = await res.json();
+
+      if (data.ok) {
+        await addAIMsgDelayed(data.ai, data.reward);
+        updateDashboard(data.state, data.reward); // <-- pass reward here
+      } else {
+        addMsg("System", "Error: " + (data.error || "unknown"), "ai");
+      }
+    } catch (err) {
+      addMsg("System", "Error: " + err.message, "ai");
+    } finally {
+      if (typingDiv && typingDiv.parentNode) {
+        typingDiv.remove();
+        typingDiv = null;
+      }
+    }
+  }
+
+  // ⌨️ Allow Enter to send message
+document.getElementById("userInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault(); // prevent newline
+    send();
+  }
+});
+
+
+ function animateHeartPlus() {
+  const animContainer = document.getElementById('heartAnimations');
+  const heartEl = document.getElementById('heartCounter');
+
+  const rect = heartEl.getBoundingClientRect();
+
+  const plus = document.createElement('div');
+  plus.className = 'heartPlus';
+  plus.textContent = '+1';
+
+  // Center +1 over the heart counter
+  plus.style.left = (rect.left + rect.width/2 - 10 + window.scrollX) + 'px';
+  plus.style.top = (rect.top - 20 + window.scrollY) + 'px';
+
+  animContainer.appendChild(plus);
+
+  // Remove element after animation
+  setTimeout(() => plus.remove(), 1000);
+}
+// ✨ Animate gift dissolve in center
+function animateGift(giftIcon) {
+  const animContainer = document.body;
+
+  // Create floating clone of icon
+  const floatIcon = document.createElement("div");
+  floatIcon.className = "gift-float";
+  floatIcon.textContent = giftIcon;
+  animContainer.appendChild(floatIcon);
+
+  // Start in center of screen (for dissolve wiggle)
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+  floatIcon.style.left = centerX + "px";
+  floatIcon.style.top = centerY + "px";
+
+  // Trigger animation
+  setTimeout(() => {
+    floatIcon.classList.add("active");
+  }, 50);
+
+  // Remove after animation
+  setTimeout(() => {
+    floatIcon.remove();
+  }, 2000);
+}
+
+function renderGifts(gifts) {
+  const container = document.getElementById("gift-container");
+  container.innerHTML = "";
+  gifts.forEach(g => {
+    const card = document.createElement("div");
+    card.className = "gift-card";
+    card.innerHTML = `
+      <div class="icon">${g.icon}</div>
+      <div class="name">${g.name}</div>
+      <div class="cost">❤️ ${g.cost}</div>
+    `;
+
+    // 🔹 Click event
+    card.addEventListener("click", async () => {
+       // 🎉 Start gift animation immediately
+  animateGift(g.icon, card);
+      try {
+        const res = await fetch("/gift", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ giftId: g.id })
+        });
+        const data = await res.json();
+        if (data.ok) {
+  // AI typing simulation + bubble
+  await addAIMsgDelayed(data.ai);
+} else {
+  addMsg("System", "Error: " + (data.error || "unknown"), "ai");
+}
+
+      } catch (err) {
+        console.error("Gift error:", err);
+      }
+    });
+
+    container.appendChild(card);
+  });
+}
+
+let currentState = null;
+let lastStageLabel = null;
+
+  function updateDashboard(state, reward) {
+  if (!state) return;
+
+  currentState = state; // save for emoji spawner
+  currentNeuroData = { ...state.emotions };
+
+  // --- update emotions ---
+  for (const [k,v] of Object.entries(state.emotions || {})) {
+    const el = document.getElementById(k);
+    if (el) el.style.width = (v*100).toFixed(0) + "%";
+  }
+
+  // --- update needs ---
+  for (const [k,v] of Object.entries(state.needs || {})) {
+    const el = document.getElementById(k);
+    if (el) el.style.width = (v*100).toFixed(0) + "%";
+  }
+
+  // --- update hearts ---
+  const heartCountEl = document.getElementById("hearts");
+  if (heartCountEl) {
+  const totalHearts = reward?.total ?? state.heart ?? 0; // ✅ fallback chain
+  const oldTotal = parseInt(heartCountEl.dataset.total || '0');
+  if (totalHearts > oldTotal) animateHeartPlus();
+
+  heartCountEl.textContent = totalHearts;
+  heartCountEl.dataset.total = totalHearts;
+  }
+
+  // --- update relationship stage ---
+  if (state.relationship) {
+    console.log("📦 Full relationship object:", state.relationship);
+
+    const score = Math.round(state.relationship.score);
+
+    // ✅ Keep last label if new one is missing
+    const stageName = state.relationship.label || 
+                      state.relationship.stage || 
+                      lastStageLabel || "Getting to know";
+
+    lastStageLabel = stageName;
+
+    updateStageCounter(score);
+    setStageTitle(stageName);
+    checkStageProgress(score);
+  }
+
+
+}
+
+
+
+// Load gifts.json and render
+fetch("./gifts.json")
+  .then(res => res.json())
+  .then(gifts => {
+  renderGifts(gifts);
+  })
+  .catch(err => console.error("Error loading gifts:", err));
+;
+// Current neurochemical state (initial dummy)
+  let currentNeuroData = {
+    dopamine: 0.5,
+    serotonin: 0.5,
+    norepinephrine: 0.5,
+    cortisol: 0.5,
+    valence: 0.5,
+    arousal: 0.5,
+    trust: 0.5,
+    curiosity: 0.5,
+    loneliness: 0.5,
+    confidence: 0.5
+  };
+
+ // Map dominant moods to emoji
+function getEmojiForMood(neuro) {
+  const { dopamine, serotonin, norepinephrine, cortisol, valence, arousal, trust, curiosity, loneliness, confidence } = neuro;
+  let mood = [];
+
+  // --- Mood rules ---
+  if (dopamine < 0.3 && serotonin < 0.3) mood.push("depressed, low motivation");
+  else if (dopamine > 0.7 && norepinephrine > 0.7) mood.push("energized, excitable");
+  else if (dopamine > 0.7 && serotonin > 0.7) mood.push("happy, content");
+  else if (dopamine < 0.3 && norepinephrine > 0.7) mood.push("anxious, restless");
+
+  if (cortisol > 0.7) mood.push("stressed, tense");
+  else if (cortisol < 0.3) mood.push("relaxed");
+
+  if (valence > 0.7 && arousal > 0.7) mood.push("playful, flirty");
+  else if (valence < 0.3 && arousal < 0.3) mood.push("withdrawn, numb");
+
+  if (trust > 0.7) mood.push("trusting, affectionate");
+  if (loneliness > 0.7) mood.push("lonely, seeking closeness");
+
+  if (confidence > 0.7) mood.push("confident, bold");
+  else if (confidence < 0.3) mood.push("insecure, hesitant");
+
+  if (curiosity > 0.7) mood.push("inquisitive, eager to explore");
+
+  const dominant = mood.length ? mood.join("; ") : "neutral";
+
+  // --- Emoji mapping ---
+  const mapping = {
+  "depressed": "😢",
+  "low motivation": "😢",
+  "energized": "⚡",
+  "excitable": "⚡",
+  "happy": "😄",
+  "content": "😄",
+  "anxious": "😰",
+  "restless": "😰",
+  "stressed": "😫",
+  "tense": "😫",
+  "relaxed": "😌",
+  "playful": "😜",
+  "flirty": "😜",
+  "withdrawn": "😶",
+  "numb": "😶",
+  "trusting": "🤗",
+  "affectionate": "🤗",
+  "lonely": "🥺",
+  "seeking closeness": "🥺",
+  "confident": "😎",
+  "bold": "😎",
+  "insecure": "😟",
+  "hesitant": "😟",
+  "inquisitive": "🤔",
+  "eager to explore": "🤔",
+  "upset": "😠",
+  "moody": "😠",
+  "irritable": "😤",
+  "frustrated": "😤"
+};
+
+  // Match moods to emojis
+  let emojis = [];
+  for (const [keyword, emoji] of Object.entries(mapping)) {
+    if (dominant.includes(keyword)) {
+      emojis.push(emoji);
+    }
+  }
+
+  // Fallback if no matches
+  return emojis.length ? [...new Set(emojis)].join(" ") : "😐";
+}
+
+  // Spawn floating emoji with random offsets
+  function spawnFloatingEmoji(icon = "💖") {
+    const el = document.createElement("div");
+    el.className = "floating-emoji";
+    el.textContent = icon;
+
+    // random x offset ±150px, y offset ±50px
+    const offsetX = (Math.random() - 0.5) * 300;
+    const offsetY = (Math.random() - 0.5) * 100;
+    el.style.left = `calc(50% + ${offsetX}px)`;
+    el.style.top = `calc(50% + ${offsetY}px)`;
+
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3000);
+  }
+
+  // Loop: spawn emoji reflecting current mood
+  setInterval(() => {
+    const emoji = getEmojiForMood(currentNeuroData);
+    spawnFloatingEmoji(emoji);
+  }, 500);
+
+ // --- WebSocket to receive live neuro + routine + chat data from server ---
+const ws = new WebSocket(`ws://${window.location.host}`);
+
+ws.onmessage = async (event) => {
+  try {
+    const msg = JSON.parse(event.data);
+
+    // --- Neuro data updates ---
+    if (msg?.state?.emotions) {
+      currentNeuroData = { ...msg.state.emotions };
+    }
+
+   // --- Feed posts ---
+    if (msg.type === "feed_post") {
+      addFeedPost(
+        msg.author,
+        msg.text,
+        msg.ts,
+        msg.likes ?? 0,
+        Array.isArray(msg.comments) ? msg.comments : []
+      );
+
+      // ✅ Trigger popup as well
+      showStatusPopup(
+        msg.avatar || "./textures/ai_avatar.jpg", // if msg has avatar, use it
+        msg.author,
+        msg.text
+      );
+    }
+
+    // --- Chat messages (classic TeenAI bubble style) ---
+    if ((!msg.type || msg.type === "chat") && msg.text) {
+      // ✅ Await typing simulation so bubbles don't overlap
+      await addAIMsgDelayed(msg.text);
+    }
+
+    // --- Routine background updates ---
+    if (msg.type === "updateBackground") {
+      updateBackground(msg.activity); // implement crossfade inside here
+    }
+
+    // --- Hearts counter updates ---
+    if (msg.type === "hearts") {
+      document.getElementById("hearts").textContent = "❤️ " + msg.value;
+      animateHeartPlus();
+    }
+
+    // --- State updates (dashboard/stats) ---
+    if (msg.type === "stateUpdate") {
+      updateDashboard(msg.state, msg.reward);
+    }
+
+     if (msg.type === "lifeevent_quest") {
+    console.log("🌐 Incoming quest message:", msg);
+    addQuestToBoard(msg); // pass the full payload
+    }
+
+    // --- Quest progress updates ---
+if (msg.type === "quest_progress") {
+  console.log("📈 Quest progress:", msg);
+  updateQuestProgress(msg.id, msg.progress, msg.goalAmount);
+}
+
+// --- Quest completed updates ---
+if (msg.type === "quest_completed") {
+  console.log("🏁 Quest completed:", msg);
+  markQuestCompleted(msg.id); // animate + remove from board
+}
+
+
+  } catch (e) {
+    console.error("WS message parse error:", e, event.data);
+  }
+};
+
+
+function playSound(id, loop = false) {
+  const audio = document.getElementById(id);
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0;
+    audio.loop = loop;
+    audio.play().catch(err => console.warn("Sound play blocked:", err));
+  }
+}
+function stopSound(id) {
+  const audio = document.getElementById(id);
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0;
+  }
+}
+
+ // Notify server/Ollama that user is online when page loads
+window.addEventListener("load", async () => {
+  try {
+    const res = await fetch("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user: "__USER_ONLINE__" }) // system flag
+    });
+    const data = await res.json();
+    if (data.ok && data.ai) {
+      await addAIMsgDelayed(data.ai);   // AI greets user on reload
+      updateDashboard(data.state, data.reward);
+    }
+
+
+  } catch (err) {
+    console.error("Failed to notify Ollama:", err);
+  }
+});
+
+/*function toggleFeed() {
+  const body = document.getElementById("feedBody");
+  body.style.display = body.style.display === "block" ? "none" : "block";
+}*/
+function toggleFeed() {
+  const feedBody = document.getElementById('feedBody');
+  const badge = document.getElementById('feedBadge');
+
+  // Toggle feed visibility
+  if (feedBody.style.display === 'none' || feedBody.style.display === '') {
+    feedBody.style.display = 'block';
+  } else {
+    feedBody.style.display = 'none';
+  }
+
+  // Reset notification counter to 1 when opening
+  if (feedBody.style.display === 'block') {
+    badge.textContent = '0';
+  }
+}
+
+// Simple time formatter
+function timeAgo(ts) {
+  const diff = Math.floor((Date.now() - ts) / 1000);
+  if (diff < 60) return diff + "s ago";
+  if (diff < 3600) return Math.floor(diff / 60) + "m ago";
+  if (diff < 86400) return Math.floor(diff / 3600) + "h ago";
+  return Math.floor(diff / 86400) + "d ago";
+}
+
+let feedCount = 0;
+
+function addFeedPost(user, text, ts, likes = 0, comments = []) {
+  feedCount++;
+  document.getElementById("feedBadge").textContent = feedCount;
+
+  const feedBody = document.getElementById("feedBody");
+
+  if (!Array.isArray(comments)) comments = [];
+
+  const post = document.createElement("div");
+  post.className = "feedPost";
+  post.innerHTML = `
+    <div class="feedProfile">
+      <img src="./textures/ai_avatar.jpg">
+      <span class="feedName">${user}</span>
+      <span class="feedTime">${timeAgo(ts)}</span>
+    </div>
+    <div class="feedText">${text}</div>
+    <div class="feedActions">
+      <span class="likeBtn">❤️ <span class="likeCount">${likes}</span></span>
+      <span class="commentBtn">💬 <span class="commentCount">${comments.length}</span></span>
+    </div>
+    <div class="feedComments"></div>
+    <div class="commentBox" style="display:none;">
+      <input type="text" class="commentInput" placeholder="Write a comment...">
+      <button class="commentSend">Send</button>
+    </div>
+  `;
+
+  // --- Likes rendering ---
+  let likedUsers = randomUsernames(Math.min(likes, 3));
+
+
+  const likeInfo = post.querySelector(".likeBtn");
+  likeInfo.innerHTML = `❤️ <span class="likeCount">${likes}</span> 
+    <span class="likeUsers">${likedUsers.join(", ")}${likes > likedUsers.length ? " and " + (likes - likedUsers.length) + " others" : ""}</span>`;
+
+  const commentsContainer = post.querySelector(".feedComments");
+
+  // --- Render initial comments with username ---
+  comments.forEach(c => {
+    const username = randomUsernames(1)[0];
+    const div = document.createElement("div");
+    div.className = "feedComment";
+    div.innerHTML = `
+      <img src="./textures/${randomAvatar()}" alt="avatar" class="commentAvatar">
+      <div class="feedCommentText"><b>${username}</b> ${c}</div>
+    `;
+    commentsContainer.appendChild(div);
+  });
+
+  // --- Like logic ---
+let liked = false; // track per post
+
+post.querySelector(".likeBtn").addEventListener("click", () => {
+  if (liked) return; // 🚫 already liked, do nothing
+  liked = true;
+
+  const likeCountEl = post.querySelector(".likeCount");
+  let count = parseInt(likeCountEl.textContent) + 1;
+  likeCountEl.textContent = count;
+
+  const likeUsersEl = post.querySelector(".likeUsers");
+  if (!likeUsersEl.textContent.includes("You")) {
+    likeUsersEl.textContent = "You, " + likeUsersEl.textContent;
+  }
+
+  if (typeof animateHeartPlus === "function") {
+    animateHeartPlus();
+  }
+
+  // 🔹 Grab post text for context
+  const postText = post.querySelector(".feedText").textContent;
+   
+    // 🔹 Show notification in chat feed
+  if (typeof addMsg === "function") {
+    addMsg("You", `
+      <div class="likeContext">
+        ❤️ Liked DAE's social media status:<br>
+        <span class="postRef">"${postText}"</span>
+      </div>
+    `, "user");
+  }
+
+
+
+  fetch("/like", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ post: postText })
+  })
+    .then(res => res.json())
+    .then(async data => {
+      if (data.ok) {
+        await addAIMsgDelayed(data.ai);
+      } else {
+        addMsg("System", "Error: " + (data.error || "unknown"), "ai");
+      }
+    })
+    .catch(err => {
+      addMsg("System", "Error: " + err.message, "ai");
+    });
+});
+
+
+
+  // --- Comment logic ---
+  const commentBtn = post.querySelector(".commentBtn");
+  const commentBox = post.querySelector(".commentBox");
+  const commentInput = commentBox.querySelector(".commentInput");
+  const commentSend = commentBox.querySelector(".commentSend");
+
+  // Toggle input box on 💬 click
+  commentBtn.addEventListener("click", () => {
+    commentBox.style.display = commentBox.style.display === "none" ? "flex" : "none";
+    if (commentBox.style.display === "flex") {
+      commentInput.focus();
+    }
+  });
+
+// --- Send comment ---
+function sendComment() {
+  const commentText = commentInput.value.trim();
+  if (!commentText) return;
+
+  const commentCountEl = post.querySelector(".commentCount");
+  let count = parseInt(commentCountEl.textContent) + 1;
+  commentCountEl.textContent = count;
+
+  const username = "You";
+  const div = document.createElement("div");
+  div.className = "feedComment";
+  div.innerHTML = `
+    <img src="./textures/user_avatar.jpg" alt="avatar" class="commentAvatar">
+    <div class="feedCommentText"><b>${username}</b> ${commentText}</div>
+  `;
+  commentsContainer.appendChild(div);
+
+  // reset input
+  commentInput.value = "";
+
+  // Grab the original feed post text for context
+  const postText = post.querySelector(".feedText").textContent;
+
+  // --- Show contextual chat bubble in chat ---
+  if (typeof addMsg === "function") {
+    addMsg("You", `
+      <div class="commentContext">
+        💬 Commented on DAE's social media status : <span class="postRef">"${postText}"</span><br>
+        <span class="yourComment">➡️ ${commentText}</span>
+      </div>
+    `, "user");
+  }
+
+  // --- Tell backend Ollama about the comment ---
+  fetch("/comment", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ post: postText, comment: commentText })
+  })
+    .then(res => res.json())
+    .then(async data => {
+      if (data.ok) {
+        await addAIMsgDelayed(data.ai);
+      } else {
+        addMsg("System", "Error: " + (data.error || "unknown"), "ai");
+      }
+    })
+    .catch(err => {
+      addMsg("System", "Error: " + err.message, "ai");
+    });
+
+  // hide comment box after sending
+  commentBox.style.display = "none";
+}
+
+commentSend.addEventListener("click", sendComment);
+
+commentInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    sendComment();
+  }
+});
+
+feedBody.prepend(post);
+
+}
+
+
+// Pick N random usernames
+function randomUsernames(n) {
+  const pool = [
+    "sky_gazer21", "coolkid99", "memeQueen", "shadowWolf",
+    "doodleBoy", "musicVibes", "sunnySmile", "chocoLover",
+    "xoxoDreamer", "urbanNinja", "pixelKid", "daydreamer22"
+  ];
+  let shuffled = pool.sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, n);
+}
+
+// Pick random avatar image
+function randomAvatar() {
+  const avatars = ["user1.jpg", "user2.jpg", "user3.jpg", "user4.jpg"];
+  return avatars[Math.floor(Math.random() * avatars.length)];
+}
+
+// 🎉 Universal reward function
+function showReward({ icon="🎁", text="You got a reward!", onAccept }) {
+  const overlay = document.getElementById("rewardOverlay");
+  const iconEl = document.getElementById("rewardIcon");
+  const textEl = document.getElementById("rewardText");
+  const acceptBtn = document.getElementById("acceptReward");
+
+  // Update visuals
+  iconEl.textContent = icon;
+  textEl.textContent = text;
+
+  overlay.style.display = "flex";
+
+  // Play celebration sound
+  playSound("sndDing");
+
+  // On accept
+  acceptBtn.onclick = () => {
+    overlay.style.display = "none";
+    if (onAccept) onAccept();
+  };
+}
+
+// Example usage:
+function rewardHearts(amount=1) {
+  showReward({
+    icon: "❤️",
+    text: `You received +${amount} Hearts!`,
+    onAccept: () => {
+      let heartsEl = document.getElementById("hearts");
+      let current = parseInt(heartsEl.textContent.replace(/\D/g,'')) || 0;
+      heartsEl.textContent = "❤️ " + (current + amount);
+      animateHeartPlus(); // your existing floating animation
+    }
+  });
+}
+
+// Keep track of current stage so we don’t spam multiple popups
+let currentStage = null;
+
+// Hard-coded relationship stages (same as backend)
+const relationshipStages = [
+  { stage: "getting_to_know", min: 0, max: 5 },
+  { stage: "aloof", min: 6, max: 20 },
+  { stage: "warming", min: 21, max: 40 },
+  { stage: "attached", min: 41, max: 55 },
+  { stage: "infatuated", min: 56, max: 65 },
+  { stage: "intimate", min: 66, max: 75 },
+  { stage: "obsessed", min: 76, max: 85 },
+  { stage: "bonded", min: 86, max: 95 },
+  { stage: "in_love", min: 96, max: 100 }
+];
+
+// Background images per stage (replace with your own assets)
+const stageBackgrounds = {
+  getting_to_know: "images/stage_getting.png",
+  aloof: "images/stage_aloof.png",
+  warming: "images/stage_warming.png",
+  attached: "images/stage_attached.png",
+  infatuated: "images/stage_infatuated.png",
+  intimate: "images/stage_intimate.png",
+  obsessed: "images/stage_obsessed.png",
+  bonded: "images/stage_bonded.png",
+  in_love: "images/stage_inlove.png"
+};
+
+// 🔹 Main function: checks stage progress & shows celebratory popup
+function checkStageProgress(points) {
+  const stage = relationshipStages.find(s => points >= s.min && points <= s.max);
+
+  if (stage && stage.stage !== currentStage) {
+    currentStage = stage.stage;
+    showStageReward(stage);
+  }
+}
+
+// 🔹 Popup (separate from showReward)
+function showStageReward(stage) {
+  const overlay = document.createElement("div");
+  overlay.className = "stageRewardOverlay";
+
+  const bg = stageBackgrounds[stage.stage] || "";
+
+  overlay.innerHTML = `
+    <div class="stageRewardContent" style="background-image:url('${bg}')">
+      <div class="stageExplosion">🎆</div>
+      <h1 class="stageName">${stage.stage.replace(/_/g, " ").toUpperCase()}</h1>
+      <p class="stageText">Milestone Reached!</p>
+      <div class="stageButtons">
+        <button class="stageAccept">Accept</button>
+        <button class="stageClose">Continue</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+
+
+  // 🎇 Explosion animation only (this doesn’t close anything)
+  setTimeout(() => {
+    overlay.querySelector(".stageExplosion").classList.add("active");
+  }, 200);
+
+  // ✅ Explicit close function (only runs on click)
+  function closePopup() {
+    overlay.classList.add("fadeOut");
+    setTimeout(() => overlay.remove(), 600);
+  }
+
+  // ✅ Buttons control closing
+  //overlay.querySelector(".stageAccept").onclick = closePopup;
+  //overlay.querySelector(".stageClose").onclick = closePopup;
+}
+
+
+
+
+function updateStageCounter(newValue) {
+  const counterEl = document.getElementById("stageCounter");
+  const current = parseInt(counterEl.textContent) || 0;
+  const duration = 800;
+  const steps = 30;
+  const increment = (newValue - current) / steps;
+  let step = 0;
+
+  const animate = setInterval(() => {
+    step++;
+    const value = Math.floor(current + increment * step);
+    counterEl.textContent = value;
+
+    // --- update progress bar during animation ---
+    const stageMeter = document.getElementById("stageMeter");
+    if (stageMeter) {
+      stageMeter.style.width = Math.min(value, 100) + "%";
+    }
+
+    if (step >= steps) {
+      counterEl.textContent = newValue;
+
+      if (stageMeter) {
+        stageMeter.style.width = Math.min(newValue, 100) + "%";
+      }
+
+      clearInterval(animate);
+    }
+  }, duration / steps);
+
+  // pulse animation effect
+  counterEl.style.animation = "pulse 0.5s ease";
+  setTimeout(() => { counterEl.style.animation = ""; }, 500);
+}
+
+function setStageTitle(title) {
+  document.getElementById("stageTitle").textContent = title;
+}
+function toggleStageTimeline() {
+  const tl = document.getElementById("stageTimeline");
+  tl.style.display = (tl.style.display === "none" || tl.style.display === "") ? "block" : "none";
+}
+
+const dashboard = document.getElementById("stageDashboard");
+dashboard.addEventListener("click", () => {
+  const timeline = document.getElementById("stageTimeline");
+  timeline.style.display = timeline.style.display === "flex" ? "none" : "flex";
+});
+
+function showStatusPopup(avatarSrc, name, statusText) {
+  const popup = document.getElementById('statusPopup');
+  const avatar = document.getElementById('statusAvatar');
+  const popupName = popup.querySelector('.popupName');
+  const popupStatus = popup.querySelector('.popupStatus');
+  const feedBody = document.getElementById('feedBody');
+  
+  // Fill data
+  avatar.src = avatarSrc;
+  popupName.textContent = name;
+  popupStatus.textContent = statusText;
+  
+  // Show popup at center
+  popup.style.opacity = 1;
+  popup.style.transform = 'translate(-50%, -50%) scale(1)';
+
+  // Animate popup shrinking into feed after 1s (if not clicked)
+  const rect = feedBody.getBoundingClientRect();
+  const autoTimer = setTimeout(() => {
+    popup.style.transform = `translate(${rect.left + rect.width/2}px, ${rect.top + rect.height/2}px) scale(0.2)`;
+    popup.style.opacity = 0;
+  }, 30000);
+
+  // 👉 When clicked: stop auto animation, fade out immediately, expand feed
+  popup.onclick = () => {
+    clearTimeout(autoTimer); // stop auto fade
+    popup.style.opacity = 0;
+    popup.style.transform = `translate(${rect.left + rect.width/2}px, ${rect.top + rect.height/2}px) scale(0.2)`;
+
+    // Expand feed with fade-in
+    feedBody.style.display = 'block';
+    feedBody.style.opacity = 0;
+    setTimeout(() => {
+      feedBody.style.transition = 'opacity 0.5s ease';
+      feedBody.style.opacity = 1;
+    }, 50);
+  };
+}
+
+
+// --- Frontend: render quest compact card onto the Life Event Board ---
+function addQuestToBoard(quest) {
+  console.log("📥 Received quest payload:", quest);
+
+  const board = document.getElementById("lifeEventBoard");
+  if (!board) {
+    console.warn("⚠️ Life Event Board container not found.");
+    return;
+  }
+
+  // Avoid duplicates
+  if (document.getElementById(`quest-${quest.id}`)) {
+    console.log(`ℹ️ Quest ${quest.id} already on board.`);
+    return;
+  }
+
+  // Timeout (convert ms → hours)
+  let timeoutText = "";
+  if (quest.timeout) {
+    const hrs = Math.ceil(quest.timeout / (1000 * 60 * 60));
+    timeoutText = `<span class="quest-timeout">⏳ ${hrs}h</span>`;
+  }
+
+  // Reward as icons
+  const rewardIcons = Object.entries(quest.reward || {})
+    .map(
+      ([k, v]) =>
+        `<span class="reward-icon" title="${k}">${getRewardIcon(k)} ${
+          v > 0 ? `+${v}` : v
+        }</span>`
+    )
+    .join(" ");
+
+  // Goal as icon
+  const goalIcon = quest.goal?.type ? getGoalIcon(quest.goal.type) : "❔";
+
+  // Status dot (green active / red inactive)
+  const statusDot =
+    quest.status === "active"
+      ? `<span class="status-dot active"></span>`
+      : `<span class="status-dot inactive"></span>`;
+
+  // Progress bars (always 3 segments, proportional fill)
+  const segs = 3;
+  const pct = quest.goal?.amount
+    ? (quest.progress ?? 0) / quest.goal.amount
+    : 0;
+  const filled = Math.round(pct * segs);
+  let progressBars = "";
+  for (let i = 0; i < segs; i++) {
+    progressBars += `<span class="progress-seg ${
+      i < filled ? "filled" : ""
+    }"></span>`;
+  }
+
+  // Build card
+  const el = document.createElement("div");
+  el.id = `quest-${quest.id}`;
+  el.className = "questCard";
+  el.innerHTML = `
+    <div class="quest-header">
+      <h3 class="quest-title">${quest.title}</h3>
+      ${statusDot}
+    </div>
+    <p class="quest-desc">${quest.description}</p>
+    <div class="quest-row">
+      <span class="goal-icon">🎯 ${goalIcon}</span>
+      <div class="quest-progress">${progressBars}</div>
+      <div class="quest-reward">${rewardIcons}</div>
+    </div>
+    ${timeoutText}
+  `;
+
+  board.appendChild(el);
+}
+
+// --- Helpers to map goals/rewards to icons ---
+function getGoalIcon(type) {
+  const map = {
+    support: "🤝",
+    reply: "💬",
+    gift: "🎁",
+    energy: "⚡",
+    task: "📝",
+    score: "📊"
+  };
+  return map[type] || "❔";
+}
+
+function getRewardIcon(type) {
+  const map = {
+    hearts: "❤️",
+    confidence: "😎",
+    social: "🫂",
+    xp: "⭐",
+    coins: "💰",
+    oxytocin: "🌸",
+    dopamine: "✨",
+    serotonin: "🌞"
+  };
+  return map[type] || "🏆";
+}
+
+
+
+
+// Example usage
+//showStatusPopup('Jane Doe', 'Just posted a new update!', 'ai_avatar.jpg');
+
+
+
+
+
+// --- Map activities to background keys ---
+const activityToBackground = {
+  "Wake up, stretch lightly": "morning",
+  "Bathroom: brush teeth, wash face, morning skincare": "morning",
+  "Quick morning exercise: stretches / push-ups": "exercise",
+  "Shower and get dressed": "morning",
+  "Prepare breakfast: eggs, toast, tea/coffee": "morning",
+  "Eat breakfast": "morning",
+  "Wash dishes and clean kitchen": "lunch",
+  "Morning classes / lectures / study session": "study",
+  "Homework / assignments / reading": "study",
+  "Prep snack: fruits or tea": "lunch",
+  "Lunch: cook simple dish or heat meal": "lunch",
+  "Eat lunch": "lunch",
+  "Afternoon classes / lab / group work": "study",
+  "Exercise / sports / outdoor activity": "exercise",
+  "Cool down, shower or wash up": "exercise",
+  "Relax / hobbies: drawing, music, gaming": "relax",
+  "Tidy room, small chores": "relax",
+  "Dinner: cook or help prepare family meal": "lunch",
+  "Eat dinner": "lunch",
+  "Evening study / projects / practice skills": "study",
+  "Leisure: gaming, reading, watch videos": "relax",
+  "Prepare for bed: brush teeth, wash face, skincare": "sleep",
+  "Set clothes for tomorrow, tidy desk": "sleep",
+  "Sleep": "sleep"
+};
+
+// --- Map backgrounds to avatar animation track index ---
+const backgroundToAvatarTrack = {
+    "morning": 0,   // Idle
+    "study": 0,     // Idle
+    "lunch": 3,     // Eat
+    "exercise": 2,  // Exercise
+    "relax": 0,     // Idle
+    "sleep": 4      // Sleep
+};
+
+
+// --- Map daily routines to textures ---
+const routineBackgrounds = {
+  "morning": "./textures/morning_room.jpg",
+  "study": "./textures/study_room.jpg",
+  "lunch": "./textures/kitchen.jpg",
+  "exercise": "./textures/gym_room.jpg",
+  "relax": "./textures/living_room.jpg",
+  "sleep": "./textures/bedroom.jpg",
+  "default": "./textures/cartoon_room.jpg"
+};
+
+// Keep track of the current background track (so we can return later)
+let currentBackgroundTrackIndex = 0;
+
+/**
+ * Changes the background in PlayCanvas according to the routine
+ * @param {string} activity - The current activity string (e.g., 'Eat lunch')
+ */
+function updateBackground(activity) { 
+    const routineKey = activityToBackground[activity] || "default";
+    const texUrl = routineBackgrounds[routineKey];
+    console.log("🎨 Switching background to:", routineKey, texUrl);
+
+    // Remove previous texture asset if exists
+    if (bg.model.material.diffuseMap) {
+        bg.model.material.diffuseMap = null;
+        bg.model.material.update();
+    }
+
+    // Create new texture asset
+    const newTexAsset = new pc.Asset('bgTex', 'texture', { url: texUrl });
+    app.assets.add(newTexAsset);
+
+    // Wait until texture is ready
+    newTexAsset.ready(() => {
+        // Apply background texture
+        if (bg && bg.model && bg.model.material) {
+            bg.model.material.diffuseMap = newTexAsset.resource;
+            bg.model.material.update();
+        }
+
+        // --- Change avatar animation safely using global tracks ---
+        const trackIndex = backgroundToAvatarTrack[routineKey];
+        if (trackIndex !== undefined) {
+            currentBackgroundTrackIndex = trackIndex; // ✅ Save this
+            changeAvatarAnimation(trackIndex);
+        } else {
+            console.warn("No avatar track mapped for background:", routineKey);
+        }
+    });
+
+    // Start loading the texture
+    app.assets.load(newTexAsset);
+}
+
+
+
+  // --- Randomizer: change every 5 seconds ---
+  /*setInterval(() => {
+    const randomRoutine = getRandomRoutine();
+    updateBackground(randomRoutine);
+  }, 5000);*/
+/**
+ * Standalone function to switch avatar animation track
+ * @param {number} trackIndex - Index of the animation track to play
+ */
+function changeAvatarAnimation(trackIndex) {
+    if (!avatarEntity) {
+        console.warn("Avatar entity not ready");
+        return;
+    }
+
+    if (!avatarEntity.anim) {
+        console.warn("Animation component not ready yet, retrying...");
+        setTimeout(() => changeAvatarAnimation(trackIndex), 100);
+        return;
+    }
+
+    if (!tracks || !tracks[trackIndex]) {
+        console.warn("Animation track not found for index:", trackIndex);
+        return;
+    }
+
+    // Assign animation track (auto-play)
+                // Assign first animation as Idle
+            avatarEntity.anim.assignAnimation('Idle', tracks[trackIndex].resource);
+    //avatarEntity.anim.assignAnimation("currentAnim", tracks[trackIndex].resource);
+    console.log("🎭 Avatar animation changed to track", trackIndex, tracks[trackIndex].name);
+}
+
+
+
+// Example: play the first animation
+
+//avatarEntity.anim.assignAnimation("currentAnim", tracks[8].resource);
+  //  avatarEntity.anim.play("currentAnim");
+
+// ✅ Temporary texting animation (track 8) then revert
+function playTextingAnimation(duration = 3000) {
+    if (!tracks || !tracks[8]) {
+        console.warn("Texting animation (track 8) not found");
+        return;
+    }
+
+    // Play texting
+    changeAvatarAnimation(8);
+
+    // Revert to background animation after duration
+    setTimeout(() => {
+        changeAvatarAnimation(currentBackgroundTrackIndex);
+    }, duration);
+}
+
+function fulfillQuest(questId) {
+  const el = document.getElementById(`quest-${questId}`);
+  if (!el) return;
+
+  // ✅ Show toast
+  showToast("Quest Completed! 🎉");
+
+  // ✅ Fire confetti
+  launchConfetti();
+
+  // ✅ Animate and remove from board
+  el.classList.add("completed");
+  setTimeout(() => el.remove(), 600);
+}
+
+function showToast(msg) {
+  const toast = document.createElement("div");
+  toast.className = "toast-center";
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+function launchConfetti() {
+  const duration = 2 * 1000;
+  const end = Date.now() + duration;
+
+  (function frame() {
+    confetti({
+      particleCount: 3,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 },
+    });
+    confetti({
+      particleCount: 3,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 },
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
+}
+
+function updateQuestProgress(id, progress, goalAmount) {
+  const el = document.getElementById(`quest-${id}`);
+  if (!el) return;
+
+  const progressEl = el.querySelector(".quest-progress");
+  if (progressEl) {
+    // Clear old segments
+    progressEl.innerHTML = "";
+    for (let i = 0; i < goalAmount; i++) {
+      const seg = document.createElement("div");
+      seg.className = "progress-seg";
+      if (i < progress) seg.classList.add("filled");
+      progressEl.appendChild(seg);
+    }
+  }
+}
+
+function markQuestCompleted(id) {
+  const el = document.getElementById(`quest-${id}`);
+  if (!el) return;
+
+  fulfillQuest(id); // ✅ animate + confetti + remove
+}
+
+
+let relationshipPoints = 0; // track user’s earned points
+
+function updateTokenLocks() {
+  document.querySelectorAll(".memoryCard").forEach(card => {
+    const price = parseInt(card.dataset.price, 10);
+    if (relationshipPoints >= price) {
+      card.classList.remove("locked");
+      card.style.cursor = "pointer";
+    } else {
+      card.classList.add("locked");
+    }
+  });
+}
+
+
+function addMemoryToken(title, description, price) {
+  const grid = document.getElementById("memoryTokenGrid");
+
+  const card = document.createElement("div");
+  card.className = "memoryCard locked"; // default locked
+  card.dataset.price = price;
+
+  card.innerHTML = `
+    <div class="memoryIcon">📸</div>
+    <div class="memoryText"><b>${title}</b><br>${description}</div>
+    <div class="memoryPrice">🧠 ${price}</div>
+  `;
+
+  grid.appendChild(card);
+}
+
+
+// Open modal when clicking a memory card (event delegation)
+document.addEventListener("click", e => {
+  const card = e.target.closest(".memoryCard");
+  if (card && !card.classList.contains("locked")) {
+    console.log("🖱️ Memory card clicked:", card.innerText);
+
+    const memoryTextEl = card.querySelector(".memoryText");
+    const memoryContent = memoryTextEl ? memoryTextEl.innerHTML : "(no content)";
+
+    document.getElementById("modalMemoryText").innerHTML = memoryContent;
+    document.getElementById("memoryModal").style.display = "flex";
+  } else if (card && card.classList.contains("locked")) {
+    alert("💔 This memory requires more relationship points!");
+  }
+});
+
+
+// Close modal
+document.getElementById("btnCloseMemory").onclick = () => {
+  document.getElementById("memoryModal").style.display = "none";
+};
+
+// Save memory (send to backend)
+document.getElementById("btnSaveMemory").onclick = async () => {
+  const when = document.getElementById("memoryWhen").value.trim();
+  const where = document.getElementById("memoryWhere").value.trim();
+  const details = document.getElementById("memoryDetails").value.trim();
+
+  if (!when || !where || !details) {
+    return alert("Please complete all fields!");
+  }
+
+  const prelim = document.getElementById("modalMemoryText").innerText;
+  const text = `Memory: ${prelim}\nWhen: ${when}\nWhere: ${where}\nDetails: ${details}`;
+
+  const res = await fetch("/memory/add", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text })
+  });
+
+  const data = await res.json();
+  if (data.ok) {
+    // ✅ no more addMemoryToken call here
+    updateTokenLocks();
+    document.getElementById("memoryModal").style.display = "none";
+    document.getElementById("memoryWhen").value = "";
+    document.getElementById("memoryWhere").value = "";
+    document.getElementById("memoryDetails").value = "";
+
+    console.log("✅ Memory saved to backend only:", data.stored);
+  } else {
+    alert("Failed to save memory.");
+  }
+};
+
+// Populate generic tokens
+//addMemoryToken("Date Night", "A romantic evening together", 10);
+//addMemoryToken("Vacation Together", "A trip to the mountains", 25);
+//addMemoryToken("First Dance", "A special moment under the stars", 40);
+
+// Later, when relationship stage changes or points increase
+relationshipPoints = 20;
+updateTokenLocks(); // unlocks "Date Night", but not "Vacation Together" or "First Dance"
+
+
+
+
+
+</script>
+
+</body>
+</html>

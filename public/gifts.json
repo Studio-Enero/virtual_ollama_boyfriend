@@ -1,0 +1,212 @@
+[
+  {
+    "id": "coffee",
+    "name": "Coffee",
+    "icon": "☕",
+    "cost": 5,
+    "effects": { "dopamine": 0.1, "rest": -0.1 }
+  },
+  {
+    "id": "chocolate",
+    "name": "Chocolate",
+    "icon": "🍫",
+    "cost": 8,
+    "effects": { "serotonin": 0.15, "dopamine": 0.05 }
+  },
+  {
+    "id": "flower",
+    "name": "Flowers",
+    "icon": "🌹",
+    "cost": 10,
+    "effects": { "valence": 0.2, "social": 0.1 }
+  },
+  {
+    "id": "plushie",
+    "name": "Plushie",
+    "icon": "🧸",
+    "cost": 12,
+    "effects": { "loneliness": -0.2, "serotonin": 0.1 }
+  },
+  {
+    "id": "book",
+    "name": "Book",
+    "icon": "📖",
+    "cost": 15,
+    "effects": { "learning": 0.3, "curiosity": 0.2 }
+  },
+  {
+    "id": "game",
+    "name": "Video Game",
+    "icon": "🎮",
+    "cost": 20,
+    "effects": { "dopamine": 0.2, "social": 0.1, "rest": -0.1 }
+  },
+  {
+    "id": "perfume",
+    "name": "Perfume",
+    "icon": "💐",
+    "cost": 25,
+    "effects": { "valence": 0.25, "dopamine": 0.1 }
+  },
+  {
+    "id": "ring",
+    "name": "Promise Ring",
+    "icon": "💍",
+    "cost": 40,
+    "effects": { "valence": 0.4, "social": 0.2 }
+  },
+  {
+    "id": "vacation",
+    "name": "Weekend Trip",
+    "icon": "✈️",
+    "cost": 60,
+    "effects": { "serotonin": 0.3, "dopamine": 0.3, "cortisol": -0.2, "rest": 0.2 }
+  },
+  {
+    "id": "puppy",
+    "name": "Puppy",
+    "icon": "🐶",
+    "cost": 80,
+    "effects": { "loneliness": -0.5, "serotonin": 0.4, "social": 0.3 }
+  },
+  {
+    "id": "pizza",
+    "name": "Pizza",
+    "icon": "🍕",
+    "cost": 12,
+    "effects": { "dopamine": 0.15, "social": 0.1 }
+  },
+  {
+    "id": "icecream",
+    "name": "Ice Cream",
+    "icon": "🍦",
+    "cost": 10,
+    "effects": { "serotonin": 0.2, "valence": 0.1 }
+  },
+  {
+    "id": "tea",
+    "name": "Tea",
+    "icon": "🍵",
+    "cost": 7,
+    "effects": { "cortisol": -0.1, "rest": 0.1 }
+  },
+  {
+    "id": "cake",
+    "name": "Birthday Cake",
+    "icon": "🎂",
+    "cost": 15,
+    "effects": { "serotonin": 0.25, "social": 0.2 }
+  },
+  {
+    "id": "catmemes",
+    "name": "Cat Memes",
+    "icon": "🐱",
+    "cost": 5,
+    "effects": { "dopamine": 0.1, "valence": 0.1 }
+  },
+  {
+    "id": "headphones",
+    "name": "Headphones",
+    "icon": "🎧",
+    "cost": 18,
+    "effects": { "dopamine": 0.2, "rest": 0.1 }
+  },
+  {
+    "id": "scentedcandle",
+    "name": "Scented Candle",
+    "icon": "🕯️",
+    "cost": 14,
+    "effects": { "cortisol": -0.15, "valence": 0.1 }
+  },
+  {
+    "id": "journal",
+    "name": "Journal",
+    "icon": "📓",
+    "cost": 12,
+    "effects": { "curiosity": 0.2, "learning": 0.2 }
+  },
+  {
+    "id": "hug",
+    "name": "Hug",
+    "icon": "🤗",
+    "cost": 0,
+    "effects": { "social": 0.3, "serotonin": 0.2, "loneliness": -0.2 }
+  },
+  {
+    "id": "loveletter",
+    "name": "Love Letter",
+    "icon": "💌",
+    "cost": 6,
+    "effects": { "valence": 0.2, "dopamine": 0.1 }
+  },
+  {
+    "id": "blanket",
+    "name": "Cozy Blanket",
+    "icon": "🛌",
+    "cost": 20,
+    "effects": { "rest": 0.3, "cortisol": -0.2 }
+  },
+  {
+    "id": "movie",
+    "name": "Movie Night",
+    "icon": "🎬",
+    "cost": 25,
+    "effects": { "social": 0.3, "dopamine": 0.2, "rest": 0.1 }
+  },
+  {
+    "id": "concert",
+    "name": "Concert Tickets",
+    "icon": "🎤",
+    "cost": 35,
+    "effects": { "dopamine": 0.3, "social": 0.4 }
+  },
+  {
+    "id": "artkit",
+    "name": "Art Kit",
+    "icon": "🎨",
+    "cost": 22,
+    "effects": { "curiosity": 0.3, "serotonin": 0.2 }
+  },
+  {
+    "id": "pillow",
+    "name": "Pillow",
+    "icon": "🛏️",
+    "cost": 12,
+    "effects": { "rest": 0.2, "cortisol": -0.1 }
+  },
+  {
+    "id": "massage",
+    "name": "Massage",
+    "icon": "💆",
+    "cost": 30,
+    "effects": { "cortisol": -0.3, "serotonin": 0.2 }
+  },
+  {
+    "id": "bike",
+    "name": "Bicycle",
+    "icon": "🚲",
+    "cost": 50,
+    "effects": { "dopamine": 0.2, "serotonin": 0.2, "rest": -0.1 }
+  },
+  {
+    "id": "stars",
+    "name": "Stargazing Date",
+    "icon": "🌌",
+    "cost": 18,
+    "effects": { "valence": 0.3, "curiosity": 0.2, "social": 0.2 }
+  },
+  {
+    "id": "robot",
+    "name": "Toy Robot",
+    "icon": "🤖",
+    "cost": 16,
+    "effects": { "curiosity": 0.3, "dopamine": 0.2 }
+  },
+  {
+    "id": "bed",
+    "name": "Extra Sleep",
+    "icon": "😴",
+    "cost": 10,
+    "effects": { "rest": 0.4, "cortisol": -0.2 }
+  }
+]

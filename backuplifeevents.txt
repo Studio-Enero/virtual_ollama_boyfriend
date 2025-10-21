@@ -1,0 +1,360 @@
+parents_absent_graduation: {
+    duration: 400,
+    time: { start: "12:00", end: "16:00" },
+    overrideTone: "disappointed, lonely",
+    effects: { serotonin: -0.2, cortisol: 0.2 }
+  },
+friends_cheer_loud: {
+    duration: 250,
+    time: { start: "18:00", end: "20:00" },
+    overrideTone: "supported, joyful",
+    effects: { dopamine: 0.25, oxytocin: 0.2 }
+  },
+forgot_cap: {
+    duration: 150,
+    time: { start: "07:00", end: "08:00" },
+    overrideTone: "embarrassed, anxious",
+    effects: { cortisol: 0.15, dopamine: -0.05 }
+  },
+shoes_broke: {
+    duration: 200,
+    time: { start: "08:00", end: "09:30" },
+    overrideTone: "stressed, frustrated",
+    effects: { cortisol: 0.15, serotonin: -0.05 }
+  },
+teacher_gives_hug: {
+    duration: 200,
+    time: { start: "10:00", end: "11:00" },
+    overrideTone: "comforted, proud",
+    effects: { oxytocin: 0.2, dopamine: 0.1 }
+  },
+rainy_weather: {
+    duration: 150,
+    time: { start: "07:00", end: "09:00" },
+    overrideTone: "mournful, reflective",
+    effects: { serotonin: -0.1, cortisol: 0.1 }
+  },
+unexpected_award: {
+    duration: 300,
+    time: { start: "14:00", end: "16:00" },
+    overrideTone: "excited, accomplished",
+    effects: { dopamine: 0.3, serotonin: 0.15 }
+  },
+  nervous_speech: {
+    duration: 250,
+    time: { start: "10:00", end: "12:00" },
+    overrideTone: "anxious, self-conscious",
+    effects: { cortisol: 0.25, dopamine: -0.05 }
+  },
+  lost_invite_ticket: {
+    duration: 200,
+    time: { start: "13:00", end: "14:00" },
+    overrideTone: "panicked, frustrated",
+    effects: { cortisol: 0.2, serotonin: -0.05 }
+  },
+  late_to_ceremony: {
+    duration: 200,
+    time: { start: "14:00", end: "15:00" },
+    overrideTone: "stressed, guilty",
+    effects: { cortisol: 0.2, dopamine: -0.05 }
+  },
+  stood_next_to_crush: {
+    duration: 150,
+    time: { start: "16:00", end: "16:30" },
+    overrideTone: "nervous, excited",
+    effects: { dopamine: 0.15, cortisol: 0.1 }
+  },
+  camera_died: {
+    duration: 150,
+    time: { start: "18:00", end: "18:30" },
+    overrideTone: "disappointed, annoyed",
+    effects: { cortisol: 0.1, serotonin: -0.05 }
+  },
+  grandparents_proud: {
+    duration: 250,
+    time: { start: "17:00", end: "18:00" },
+    overrideTone: "happy, supported",
+    effects: { dopamine: 0.2, oxytocin: 0.2 }
+  },
+  siblings_embarrass: {
+    duration: 150,
+    time: { start: "12:00", end: "12:30" },
+    overrideTone: "annoyed, self-conscious",
+    effects: { cortisol: 0.1, dopamine: -0.05 }
+  },
+  best_friend_flowers: {
+    duration: 200,
+    time: { start: "15:00", end: "15:30" },
+    overrideTone: "touched, grateful",
+    effects: { oxytocin: 0.2, dopamine: 0.1 }
+  },
+  stage_lights_hot: {
+    duration: 150,
+    time: { start: "19:00", end: "19:30" },
+    overrideTone: "uncomfortable, anxious",
+    effects: { cortisol: 0.1 }
+  },
+  tripped_on_stage: {
+    duration: 200,
+    time: { start: "19:30", end: "20:00" },
+    overrideTone: "embarrassed, flustered",
+    effects: { cortisol: 0.2, dopamine: -0.05 }
+  },
+  afterparty_fun: {
+    duration: 300,
+    time: { start: "21:00", end: "23:00" },
+    overrideTone: "happy, carefree",
+    effects: { dopamine: 0.25, serotonin: 0.15 }
+  },
+  professor_emotional: {
+    duration: 250,
+    time: { start: "16:00", end: "16:30" },
+    overrideTone: "touched, sentimental",
+    effects: { oxytocin: 0.2, serotonin: 0.1 }
+  },
+  unexpected_job_offer: {
+    duration: 350,
+    time: { start: "10:00", end: "11:00" },
+    overrideTone: "excited, optimistic",
+    effects: { dopamine: 0.3, serotonin: 0.15 }
+  },
+  late_first_day: {
+    duration: 200,
+    time: { start: "08:00", end: "09:00" },
+    overrideTone: "nervous, rushed",
+    effects: { cortisol: 0.2, dopamine: -0.05 }
+  },
+  mentor_supportive: {
+    duration: 250,
+    time: { start: "13:00", end: "14:00" },
+    overrideTone: "encouraged, confident",
+    effects: { dopamine: 0.2, oxytocin: 0.15 }
+  },
+  office_printer_jam: {
+    duration: 150,
+    time: { start: "09:00", end: "09:30" },
+    overrideTone: "frustrated, annoyed",
+    effects: { cortisol: 0.15, serotonin: -0.05 }
+  },
+  boss_strict: {
+    duration: 200,
+    time: { start: "11:00", end: "12:00" },
+    overrideTone: "tense, cautious",
+    effects: { cortisol: 0.25, serotonin: -0.1 }
+  },
+  friendly_coworker: {
+    duration: 200,
+    time: { start: "14:00", end: "15:00" },
+    overrideTone: "happy, supported",
+    effects: { oxytocin: 0.2, dopamine: 0.1 }
+  },
+  coffee_machine_broken: {
+    duration: 150,
+    time: { start: "08:30", end: "09:00" },
+    overrideTone: "disappointed, sleepy",
+    effects: { cortisol: 0.1, dopamine: -0.05 }
+  },
+  paycheck_arrived: {
+    duration: 300,
+    time: { start: "10:00", end: "11:00" },
+    overrideTone: "relieved, accomplished",
+    effects: { dopamine: 0.3, serotonin: 0.1 }
+  },
+  forgot_password: {
+    duration: 150,
+    time: { start: "09:00", end: "09:30" },
+    overrideTone: "frustrated, flustered",
+    effects: { cortisol: 0.1, serotonin: -0.05 }
+  },
+  big_presentation: {
+    duration: 300,
+    time: { start: "11:00", end: "12:00" },
+    overrideTone: "anxious, focused",
+    effects: { cortisol: 0.25, dopamine: 0.1 }
+  },
+  colleague_birthday: {
+    duration: 200,
+    time: { start: "15:00", end: "15:30" },
+    overrideTone: "cheerful, social",
+    effects: { dopamine: 0.15, oxytocin: 0.15 }
+  },
+  messy_desk: {
+    duration: 150,
+    time: { start: "09:00", end: "09:30" },
+    overrideTone: "distracted, annoyed",
+    effects: { cortisol: 0.1 }
+  },
+  learning_new_skills: {
+    duration: 300,
+    time: { start: "10:00", end: "12:00" },
+    overrideTone: "curious, motivated",
+    effects: { dopamine: 0.2, serotonin: 0.1 }
+  },
+  long_commute: {
+    duration: 200,
+    time: { start: "07:00", end: "08:00" },
+    overrideTone: "tired, frustrated",
+    effects: { cortisol: 0.15, serotonin: -0.1 }
+  },
+  praise_from_boss: {
+    duration: 250,
+    time: { start: "14:00", end: "14:30" },
+    overrideTone: "proud, motivated",
+    effects: { dopamine: 0.25, serotonin: 0.1 }
+  },
+  office_lunch: {
+    duration: 150,
+    time: { start: "12:00", end: "12:30" },
+    overrideTone: "relaxed, social",
+    effects: { serotonin: 0.1, dopamine: 0.05 }
+  },
+  stayed_overtime: {
+    duration: 200,
+    time: { start: "18:00", end: "20:00" },
+    overrideTone: "tired, diligent",
+    effects: { cortisol: 0.15, dopamine: 0.05 }
+  },
+  finished_project: {
+    duration: 300,
+    time: { start: "15:00", end: "16:00" },
+    overrideTone: "accomplished, relieved",
+    effects: { dopamine: 0.3, serotonin: 0.15 }
+  },
+  client_angry: {
+    duration: 250,
+    time: { start: "10:00", end: "11:00" },
+    overrideTone: "stressed, anxious",
+    effects: { cortisol: 0.25, serotonin: -0.1 }
+  },
+  boss_smiles: {
+    duration: 200,
+    time: { start: "14:00", end: "14:30" },
+    overrideTone: "happy, supported",
+    effects: { dopamine: 0.2, oxytocin: 0.1 }
+  },
+  weekend_email: {
+    duration: 150,
+    time: { start: "09:00", end: "09:30" },
+    overrideTone: "irritated, pressured",
+    effects: { cortisol: 0.15, serotonin: -0.05 }
+  },
+  promotion_offer: {
+    duration: 400,
+    time: { start: "11:00", end: "12:00" },
+    overrideTone: "excited, proud",
+    effects: { dopamine: 0.3, serotonin: 0.15 }
+  },
+  jealous_coworker: {
+    duration: 250,
+    time: { start: "13:00", end: "14:00" },
+    overrideTone: "tense, cautious",
+    effects: { cortisol: 0.2, serotonin: -0.1 }
+  },
+  tight_deadline: {
+    duration: 300,
+    time: { start: "09:00", end: "10:00" },
+    overrideTone: "stressed, focused",
+    effects: { cortisol: 0.25, dopamine: 0.1 }
+  },
+  presentation_success: {
+    duration: 350,
+    time: { start: "16:00", end: "16:30" },
+    overrideTone: "proud, relieved",
+    effects: { dopamine: 0.25, serotonin: 0.15 }
+  },
+  team_supportive: {
+    duration: 300,
+    time: { start: "14:00", end: "15:00" },
+    overrideTone: "encouraged, happy",
+    effects: { oxytocin: 0.2, dopamine: 0.15 }
+  },
+  office_politics: {
+    duration: 350,
+    time: { start: "11:00", end: "12:00" },
+    overrideTone: "suspicious, cautious",
+    effects: { cortisol: 0.2, serotonin: -0.1 }
+  },
+  late_night_work: {
+    duration: 200,
+    time: { start: "21:00", end: "22:00" },
+    overrideTone: "tired, focused",
+    effects: { cortisol: 0.15, dopamine: 0.05 }
+  },
+  coffee_overload: {
+    duration: 150,
+    time: { start: "09:30", end: "10:00" },
+    overrideTone: "jittery, alert",
+    effects: { cortisol: 0.2, dopamine: 0.1 }
+  },
+  sick_day: {
+    duration: 300,
+    time: { start: "08:00", end: "12:00" },
+    overrideTone: "weary, resting",
+    effects: { cortisol: 0.2, serotonin: -0.15 }
+  },
+  unexpected_bonus: {
+    duration: 400,
+    time: { start: "10:00", end: "11:00" },
+    overrideTone: "happy, rewarded",
+    effects: { dopamine: 0.3, serotonin: 0.2 }
+  },
+  conflict_meeting: {
+    duration: 300,
+    time: { start: "14:00", end: "15:00" },
+    overrideTone: "anxious, defensive",
+    effects: { cortisol: 0.25, serotonin: -0.1 }
+  },
+  training_trip: {
+    duration: 350,
+    time: { start: "09:00", end: "11:00" },
+    overrideTone: "curious, motivated",
+    effects: { dopamine: 0.2, serotonin: 0.1 }
+  },
+  manager_quits: {
+    duration: 300,
+    time: { start: "10:00", end: "11:00" },
+    overrideTone: "shocked, uncertain",
+    effects: { cortisol: 0.25, serotonin: -0.1 }
+  },
+  new_office_space: {
+    duration: 250,
+    time: { start: "13:00", end: "14:00" },
+    overrideTone: "excited, adjusting",
+    effects: { dopamine: 0.15, serotonin: 0.1 }
+  },
+  printer_explodes: {
+    duration: 200,
+    time: { start: "11:30", end: "12:00" },
+    overrideTone: "stressed, frustrated",
+    effects: { cortisol: 0.2, serotonin: -0.05 }
+  },
+  big_client_signed: {
+    duration: 400,
+    time: { start: "15:00", end: "16:00" },
+    overrideTone: "proud, accomplished",
+    effects: { dopamine: 0.3, serotonin: 0.15 }
+  },
+  deadline_extended: {
+    duration: 250,
+    time: { start: "12:30", end: "13:00" },
+    overrideTone: "relieved, relaxed",
+    effects: { cortisol: -0.1, dopamine: 0.1 }
+  },
+  team_party: {
+    duration: 300,
+    time: { start: "19:00", end: "21:00" },
+    overrideTone: "joyful, social",
+    effects: { dopamine: 0.2, oxytocin: 0.2 }
+  },
+  company_merger: {
+    duration: 400,
+    time: { start: "10:00", end: "11:00" },
+    overrideTone: "anxious, uncertain",
+    effects: { cortisol: 0.3, serotonin: -0.15 }
+  },
+  promotion_celebration: {
+    duration: 350,
+    time: { start: "18:00", end: "19:00" },
+    overrideTone: "proud, celebratory",
+    effects: { dopamine: 0.25, oxytocin: 0.15 }
+  }
